@@ -118,7 +118,7 @@ export function PostCard({ post }: { post: BoardPost }) {
             </span>
           )}
           {post.tags.slice(0, 3).map((tag) => (
-            <Tag tone="blue" key={tag}>
+            <Tag tone="primary" key={tag}>
               {tag}
             </Tag>
           ))}

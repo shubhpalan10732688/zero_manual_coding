@@ -8,7 +8,7 @@
 
 export type Priority = 'critical' | 'high' | 'medium' | 'optimization';
 
-export type Tone = 'good' | 'warn' | 'bad' | 'neutral' | 'blue' | 'violet';
+export type Tone = 'good' | 'warn' | 'bad' | 'neutral' | 'primary' | 'accent';
 
 /** How a figure was arrived at. Self-reported savings must never look measured. */
 export type Confidence = 'measured' | 'high' | 'medium' | 'low';

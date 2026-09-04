@@ -33,9 +33,9 @@ import { cursorShellContext, type SearchParams } from '../lib/shell';
  */
 
 const WORK_TYPE_COLORS: Record<string, string> = {
-  feature: 'var(--ui-blue)',
-  bug: 'var(--ui-bad)',
-  chore: 'var(--ui-violet)',
+  feature: 'var(--ui-primary)',
+  bug: 'var(--ui-critical)',
+  chore: 'var(--ui-cool)',
   unknown: 'var(--ui-surface-3)',
 };
 
@@ -121,7 +121,7 @@ export default async function ImpactPage({ searchParams }: { searchParams: Searc
     {
       key: 'type',
       header: 'Work',
-      render: (row: TicketImpact) => <Tag tone="blue">{row.workType}</Tag>,
+      render: (row: TicketImpact) => <Tag tone="primary">{row.workType}</Tag>,
     },
     { key: 'agents', header: 'Agents', numeric: true, render: (row: TicketImpact) => row.agents },
     {

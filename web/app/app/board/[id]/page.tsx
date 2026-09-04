@@ -80,12 +80,12 @@ export default async function PostPage({
                 <span className="ui-post-author">{post.authorName}</span>
                 {post.teamName && <Tag>{post.teamName}</Tag>}
                 {post.ticketKeys.map((key) => (
-                  <Tag tone="blue" key={key}>
+                  <Tag tone="primary" key={key}>
                     {key}
                   </Tag>
                 ))}
                 {post.tags.map((tag) => (
-                  <Tag tone="violet" key={tag}>
+                  <Tag tone="accent" key={tag}>
                     {tag}
                   </Tag>
                 ))}

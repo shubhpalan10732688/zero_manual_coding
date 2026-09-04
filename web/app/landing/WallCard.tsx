@@ -92,7 +92,7 @@ export function WallCard({ post, featured = false }: { post: BoardPost; featured
             <Tag key={key}>{key}</Tag>
           ))}
           {post.tags.slice(0, featured ? 3 : 2).map((tag) => (
-            <Tag tone="blue" key={tag}>
+            <Tag tone="primary" key={tag}>
               {tag}
             </Tag>
           ))}

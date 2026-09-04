@@ -46,14 +46,14 @@ function ResourceRow({ resource, canFeature }: { resource: Resource; canFeature:
             {resource.title}
             <Icon name="external" size={11} />
           </a>
-          {resource.featured && <Tag tone="violet">featured</Tag>}
+          {resource.featured && <Tag tone="accent">featured</Tag>}
           {resource.repoStars !== null && (
             <Tag tone="warn">
               <Icon name="star" size={10} /> {compact(resource.repoStars)}
             </Tag>
           )}
           {resource.tags.slice(0, 3).map((tag) => (
-            <Tag tone="blue" key={tag}>
+            <Tag tone="primary" key={tag}>
               {tag}
             </Tag>
           ))}

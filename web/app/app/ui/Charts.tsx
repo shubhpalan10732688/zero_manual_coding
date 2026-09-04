@@ -230,7 +230,7 @@ export function ChartTabs({
 
 export function Sparkline({
   values,
-  color = 'var(--ui-blue)',
+  color = 'var(--ui-primary)',
   width = 108,
   height = 30,
 }: {
@@ -286,7 +286,7 @@ export function ScoreDial({
         <defs>
           <linearGradient id={`ui-dial-${Math.round(value)}-${size}`} x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor={color} />
-            <stop offset="100%" stopColor="var(--ui-violet)" />
+            <stop offset="100%" stopColor={`color-mix(in srgb, ${color} 62%, #fff)`} />
           </linearGradient>
         </defs>
         <circle
@@ -390,7 +390,7 @@ export function ScoreBars({ breakdown }: { breakdown: ScoreBreakdown }) {
                     component.value >= 85
                       ? 'var(--ui-good)'
                       : component.value >= 75
-                        ? 'var(--ui-blue)'
+                        ? 'var(--ui-primary)'
                         : 'var(--ui-warn)',
                 }}
               />

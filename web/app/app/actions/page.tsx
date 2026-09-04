@@ -69,7 +69,7 @@ function ActionCard({ action }: { action: TrackedAction }) {
           <Tag tone={action.basis === 'measured' ? 'good' : 'warn'}>
             {action.basis === 'measured' ? 'Measured' : 'Inferred'}
           </Tag>
-          {action.status !== 'open' && <Tag tone="blue">{STATUS_LABEL[action.status]}</Tag>}
+          {action.status !== 'open' && <Tag tone="primary">{STATUS_LABEL[action.status]}</Tag>}
         </div>
 
         <p className="ui-action-body">{action.detail}</p>

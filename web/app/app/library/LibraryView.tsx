@@ -161,7 +161,7 @@ export async function LibraryView({
                     <a className="ui-row-title" href={`${base}/${asset.slug}`}>
                       {asset.title}
                     </a>
-                    <Tag tone="blue">{asset.category}</Tag>
+                    <Tag tone="primary">{asset.category}</Tag>
                     {asset.status !== 'published' && <Tag tone="warn">{asset.status}</Tag>}
                     {asset.tags.slice(0, 3).map((tag) => (
                       <Tag key={tag}>{tag}</Tag>

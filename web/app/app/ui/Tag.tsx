@@ -19,7 +19,7 @@ export function StatusTag({ status }: { status: string }) {
       : status === 'in review' || status === 'review' || status === 'measuring'
         ? 'warn'
         : status === 'open'
-          ? 'blue'
+          ? 'primary'
           : 'neutral';
   return <Tag tone={tone}>{status}</Tag>;
 }
@@ -51,7 +51,13 @@ export function Delta({ trend, showBasis = true }: { trend: Trend; showBasis?: b
  */
 export function ConfidenceTag({ level }: { level: Confidence }) {
   const tone: Tone =
-    level === 'measured' ? 'good' : level === 'high' ? 'blue' : level === 'medium' ? 'warn' : 'bad';
+    level === 'measured'
+      ? 'good'
+      : level === 'high'
+        ? 'primary'
+        : level === 'medium'
+          ? 'warn'
+          : 'bad';
   return (
     <span className={`ui-tag ui-tag-${tone}`} title={confidenceNote[level]}>
       {confidenceLabel[level]}

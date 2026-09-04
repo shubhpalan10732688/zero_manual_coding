@@ -79,10 +79,10 @@ export const priorityLabel: Record<Priority, string> = {
   optimization: 'Optimization',
 };
 
-export const priorityTone: Record<Priority, 'bad' | 'warn' | 'blue' | 'good'> = {
+export const priorityTone: Record<Priority, 'bad' | 'warn' | 'primary' | 'good'> = {
   critical: 'bad',
   high: 'warn',
-  medium: 'blue',
+  medium: 'primary',
   optimization: 'good',
 };
 
@@ -100,7 +100,7 @@ export const confidenceNote: Record<Confidence, string> = {
   low: 'Written by the person who did the work. Not verified against any system.',
 };
 
-export function statusTone(status: string): 'good' | 'warn' | 'blue' | 'neutral' {
+export function statusTone(status: string): 'good' | 'warn' | 'primary' | 'neutral' {
   switch (status) {
     case 'merged':
     case 'done':
@@ -112,7 +112,7 @@ export function statusTone(status: string): 'good' | 'warn' | 'blue' | 'neutral'
     case 'review':
       return 'warn';
     case 'open':
-      return 'blue';
+      return 'primary';
     default:
       return 'neutral';
   }

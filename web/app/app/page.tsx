@@ -133,12 +133,12 @@ export default async function Dashboard({ searchParams }: { searchParams: Search
       {
         id: 'runs',
         label: 'Runs',
-        series: [{ key: 'runs', label: 'Runs', color: 'var(--ui-blue)', format: 'count' }],
+        series: [{ key: 'runs', label: 'Runs', color: 'var(--ui-primary)', format: 'count' }],
       },
       {
         id: 'cost',
         label: 'Cost',
-        series: [{ key: 'cost', label: 'Cost', color: 'var(--ui-violet)', format: 'money' }],
+        series: [{ key: 'cost', label: 'Cost', color: 'var(--ui-accent)', format: 'money' }],
       },
       {
         id: 'tokens',

@@ -143,12 +143,13 @@ export function BrandMark({ size = 17 }: { size?: number }) {
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M12 3l8.5 15h-17z"
-        stroke="#fff"
+        stroke="currentColor"
         strokeWidth="1.9"
         strokeLinejoin="round"
-        fill="rgba(255,255,255,0.16)"
+        fill="currentColor"
+        fillOpacity="0.18"
       />
-      <circle cx="12" cy="13.5" r="2.1" fill="#fff" />
+      <circle cx="12" cy="13.5" r="2.1" fill="currentColor" />
     </svg>
   );
 }

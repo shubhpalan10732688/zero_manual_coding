@@ -169,7 +169,7 @@ export async function AssetView({
               <Card title="Tags">
                 <div className="ui-row ui-row-tight">
                   {asset.tags.map((tag) => (
-                    <Tag tone="blue" key={tag}>
+                    <Tag tone="primary" key={tag}>
                       {tag}
                     </Tag>
                   ))}
