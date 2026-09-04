@@ -1,0 +1,72 @@
+service: cursor-insights
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-esbuild
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  memorySize: 512
+  timeout: 900
+  logRetentionInDays: 30
+  environment:
+    NODE_OPTIONS: --enable-source-maps
+    LOG_LEVEL: info
+    CURSOR_API_KEY_SECRET_ID: ${self:custom.cursorApiKeySecretId.${self:provider.stage}}
+    DATABASE_URL: ${ssm:/cursor-insights/${self:provider.stage}/database-url~true}
+    PGSSLMODE: require
+    INGEST_LOOKBACK_DAYS: '3'
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - secretsmanager:GetSecretValue
+          Resource:
+            - arn:aws:secretsmanager:${self:provider.region}:${aws:accountId}:secret:${self:custom.cursorApiKeySecretId.${self:provider.stage}}-*
+  vpc:
+    securityGroupIds:
+      - ${ssm:/cursor-insights/${self:provider.stage}/lambda-sg-id}
+    subnetIds:
+      - ${ssm:/cursor-insights/${self:provider.stage}/subnet-a}
+      - ${ssm:/cursor-insights/${self:provider.stage}/subnet-b}
+
+custom:
+  cursorApiKeySecretId:
+    dev: cursor-insights/dev/cursor-api-key
+    prod: cursor-insights/prod/cursor-api-key
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    target: node22
+    platform: node
+    external:
+      - pg-native
+
+functions:
+  ingest:
+    handler: src/handler.ingest
+    description: Pulls Cursor Admin API usage into Postgres
+    events:
+      # 02:00 UTC daily. Cursor aggregates hourly and the job re-fetches a trailing
+      # window, so a missed run self-heals on the next one.
+      - schedule:
+          rate: cron(0 2 * * ? *)
+          enabled: true
+  migrate:
+    handler: src/handler.migrate
+    description: Applies pending SQL migrations, invoked manually after deploys
+    timeout: 300
+    environment:
+      MIGRATIONS_DIR: ./db/migrations
+    package:
+      patterns:
+        - db/migrations/**
+
+package:
+  individually: true

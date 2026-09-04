@@ -1,0 +1,139 @@
+{
+  "_comment": "Pull request and ticket records exported for enrichment, for networks where the app cannot reach GitHub or Jira directly. Regenerate with GITHUB_TOKEN and JIRA_* set, or by hand. Consumed by: npm run enrich -- --file data/enrichment.json",
+  "pullRequests": [
+    {
+      "repo": "viacomcbs/bsd-order-management-console",
+      "number": 1222,
+      "title": "docs(mic): add AGENTS.md with Cursor Cloud dev setup notes",
+      "url": "https://github.com/viacomcbs/bsd-order-management-console/pull/1222",
+      "state": "open",
+      "merged": false,
+      "author": "shubhpalan23",
+      "additions": 71,
+      "deletions": 0,
+      "changedFiles": 1,
+      "headBranch": "cursor/dev-environment-setup-6f72"
+    },
+    {
+      "repo": "viacomcbs/bsd-order-management-console",
+      "number": 1225,
+      "title": "feat(mic): BSD-28880 Clear material metadataupdatedtoid on relaunch events",
+      "url": "https://github.com/viacomcbs/bsd-order-management-console/pull/1225",
+      "state": "closed",
+      "merged": true,
+      "mergedAt": "2026-07-17T11:00:13Z",
+      "author": "shubhpalan23",
+      "additions": 114,
+      "deletions": 1,
+      "changedFiles": 3,
+      "headBranch": "cursor/bsd-28880-clear-metadataupdatedtoid-on-relaunch-a31c"
+    },
+    {
+      "repo": "viacomcbs/bsd-order-management-console",
+      "number": 1226,
+      "title": "feat(mic): BSD-29479 Support fastTrack flag on DSI demand signal ingest",
+      "url": "https://github.com/viacomcbs/bsd-order-management-console/pull/1226",
+      "state": "closed",
+      "merged": true,
+      "mergedAt": "2026-07-20T08:22:46Z",
+      "author": "shubhpalan23",
+      "additions": 189,
+      "deletions": 7,
+      "changedFiles": 13,
+      "headBranch": "cursor/feat-BSD-29479-dsi-fasttrack-aa69"
+    },
+    {
+      "repo": "viacomcbs/bsd-order-management-console",
+      "number": 1229,
+      "title": "docs: add AGENTS.md with Cursor Cloud dev environment setup notes",
+      "url": "https://github.com/viacomcbs/bsd-order-management-console/pull/1229",
+      "state": "open",
+      "merged": false,
+      "author": "shubhpalan23",
+      "additions": 46,
+      "deletions": 0,
+      "changedFiles": 1,
+      "headBranch": "cursor/setup-dev-environment-118e"
+    },
+    {
+      "repo": "viacomcbs/bsd-order-management-console",
+      "number": 1231,
+      "title": "feat(mic): BSD-29502 Add IngestRegistrationHandler to persist Document mediaType from EB ingest registration events",
+      "url": "https://github.com/viacomcbs/bsd-order-management-console/pull/1231",
+      "state": "closed",
+      "merged": true,
+      "mergedAt": "2026-07-22T09:30:14Z",
+      "author": "shubhpalan23",
+      "additions": 197,
+      "deletions": 6,
+      "changedFiles": 5,
+      "headBranch": "cursor/document-type-ingest-registration-handler-18c3"
+    },
+    {
+      "repo": "viacomcbs/bsd-order-management-console",
+      "number": 1232,
+      "title": "fix(mic): BSD-28880 Prevent concurrent EB shell track bootstrap races",
+      "url": "https://github.com/viacomcbs/bsd-order-management-console/pull/1232",
+      "state": "closed",
+      "merged": true,
+      "mergedAt": "2026-07-22T09:28:28Z",
+      "author": "shubhpalan23",
+      "additions": 115,
+      "deletions": 10,
+      "changedFiles": 5,
+      "headBranch": "cursor/fix-metadata-update-shell-race-ba9b"
+    },
+    {
+      "repo": "viacomcbs/bsd-order-management-console",
+      "number": 1234,
+      "title": "fix(mic): BSD-29387 Persist uploader email from any SDVI event",
+      "url": "https://github.com/viacomcbs/bsd-order-management-console/pull/1234",
+      "state": "closed",
+      "merged": true,
+      "mergedAt": "2026-07-22T09:54:22Z",
+      "author": "shubhpalan23",
+      "additions": 311,
+      "deletions": 26,
+      "changedFiles": 9,
+      "headBranch": "mic/fix/BSD-29387-uploader-email-any-event"
+    }
+  ],
+  "tickets": [
+    {
+      "key": "BSD-28880",
+      "issueType": "Story",
+      "summary": "MIC-BE - EB - Implement v2 for metadata update Initiated/In Progress/Completed/Failed",
+      "status": "Complete",
+      "statusCategory": "done",
+      "projectKey": "BSD",
+      "projectName": "Broadcast Systems Development"
+    },
+    {
+      "key": "BSD-29479",
+      "issueType": "Story",
+      "summary": "MIC-BE - Support fastTrack flag on DSI demand signal ingest event",
+      "status": "To Do",
+      "statusCategory": "new",
+      "projectKey": "BSD",
+      "projectName": "Broadcast Systems Development"
+    },
+    {
+      "key": "BSD-29502",
+      "issueType": "Bug",
+      "summary": "OC-MIC-QA-Document details are not updated in MIC Console",
+      "status": "In Progress (DEV)",
+      "statusCategory": "indeterminate",
+      "projectKey": "BSD",
+      "projectName": "Broadcast Systems Development"
+    },
+    {
+      "key": "BSD-29387",
+      "issueType": "Bug",
+      "summary": "OC-MIC-QA-Uploader Email column not updated/populated for specific orders in MIC",
+      "status": "In Progress (DEV)",
+      "statusCategory": "indeterminate",
+      "projectKey": "BSD",
+      "projectName": "Broadcast Systems Development"
+    }
+  ]
+}

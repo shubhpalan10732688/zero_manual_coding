@@ -1,0 +1,49 @@
+{
+  "name": "zero-manual-coding",
+  "version": "1.0.0",
+  "description": "A public wall of what people achieved with AI agents, plus the workspace and the measured Cursor data behind it",
+  "private": true,
+  "scripts": {
+    "preflight": "node --use-system-ca --import tsx src/cli/preflight.ts",
+    "migrate": "node --use-system-ca --import tsx src/cli/migrate.ts",
+    "ingest": "node --use-system-ca --import tsx src/cli/ingest.ts",
+    "connect": "node --use-system-ca --import tsx src/cli/connect.ts",
+    "refresh": "node --use-system-ca --import tsx src/cli/refresh.ts",
+    "enrich": "node --use-system-ca --import tsx src/cli/enrich.ts",
+    "news": "node --use-system-ca --import tsx src/cli/news.ts",
+    "nightly": "node --use-system-ca --import tsx src/cli/nightly.ts",
+    "backfill": "node --use-system-ca --import tsx src/cli/backfill.ts",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+    "validate:sql": "node scripts/validate-sql.mjs",
+    "dev:db": "node scripts/dev-db.mjs",
+    "dev:session": "node --use-system-ca --import tsx src/cli/devSession.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src test --cache",
+    "lint:fix": "eslint src test --cache --fix",
+    "deploy": "serverless deploy"
+  },
+  "keywords": [],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.918.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.4",
+    "@electric-sql/pglite-socket": "^0.2.7",
+    "@eslint/js": "^9.39.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.18.12",
+    "@types/pg": "^8.15.6",
+    "esbuild": "^0.25.12",
+    "eslint": "^9.39.1",
+    "jest": "^30.2.0",
+    "pg-query-emscripten": "^5.1.0",
+    "serverless": "^3.40.0",
+    "serverless-esbuild": "^1.55.1",
+    "ts-jest": "^29.4.5",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4"
+  }
+}

@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.serverless/
+.esbuild/
+.next/
+coverage/
+.eslintcache
+.env
+.env.local
+*.log
+preflight-report.json
+.pglite/
+*.tsbuildinfo
+
+# Raw export archive, 150MB+. Too large for git; keep it out of band.
+data.zip
