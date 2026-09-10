@@ -13,7 +13,7 @@ import { CredentialError, verifyGitHubToken, verifyJiraCredentials } from '@core
 import { logger } from '@core/logger';
 import { clientFor, disconnect as removeCursorKey } from '@core/users/keyStore';
 
-import { requireUser } from '../lib/auth';
+import { requireExtendedWorkspaceUser as requireUser } from '../lib/auth';
 import { text } from '../lib/forms';
 
 import type { ConnectFormState } from './types';

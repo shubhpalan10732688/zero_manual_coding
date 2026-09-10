@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { query } from '@core/db/pool';
 import { refreshNews } from '@core/news/ingest';
 
-import { requireUser } from '../lib/auth';
+import { requireExtendedWorkspaceUser as requireUser } from '../lib/auth';
 import { list, optionalText, text, url as parseUrl } from '../lib/forms';
 
 import type { NewsFormState } from './types';

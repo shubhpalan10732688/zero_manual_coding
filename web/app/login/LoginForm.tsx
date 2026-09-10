@@ -2,6 +2,8 @@
 
 import { useActionState, useState } from 'react';
 
+import { EXTENDED_WORKSPACE_ENABLED } from '../../features';
+
 import { Alert, Field, TextInput } from '../app/ui/Form';
 import { Icon } from '../app/ui/Icons';
 
@@ -24,7 +26,7 @@ export function LoginForm({ next, compact = false }: { next?: string; compact?: 
       {next && <input type="hidden" name="next" value={next} />}
       {state.error && <Alert tone="bad">{state.error}</Alert>}
 
-      {state.help === 'mismatch' && (
+      {EXTENDED_WORKSPACE_ENABLED && state.help === 'mismatch' && (
         <Alert tone="info">
           A key can only sign in as the account it was created on. Open{' '}
           <a href="https://cursor.com/dashboard" target="_blank" rel="noopener noreferrer">
@@ -37,7 +39,7 @@ export function LoginForm({ next, compact = false }: { next?: string; compact?: 
       <Field
         label="Work email"
         htmlFor="email"
-        hint="The address on your Cursor account."
+        hint="Use your work email to take part in Zero Manual Coding."
       >
         <TextInput
           id="email"
@@ -50,6 +52,8 @@ export function LoginForm({ next, compact = false }: { next?: string; compact?: 
         />
       </Field>
 
+      {/* Temporarily disabled: key input, reveal control and connection guidance. */}
+      {EXTENDED_WORKSPACE_ENABLED && <>
       <Field
         label="Cursor API key — optional"
         htmlFor="apiKey"
@@ -87,13 +91,14 @@ export function LoginForm({ next, compact = false }: { next?: string; compact?: 
         />
         <span>Show the key so I can check I pasted all of it</span>
       </label>
+      </>}
 
       <button type="submit" className="ui-btn ui-btn-primary ui-btn-block" disabled={pending}>
-        {pending ? 'Checking with Cursor\u2026' : 'Sign in'}
+        {pending ? 'Signing in\u2026' : 'Sign in'}
         {!pending && <Icon name="arrowRight" size={14} />}
       </button>
 
-      {!compact && (
+      {EXTENDED_WORKSPACE_ENABLED && !compact && (
         <p className="ui-hint">
           If you give a key it is encrypted before it is stored and is used only to read your
           own Cursor data. Signing in with one for the first time also pulls your Cloud Agent

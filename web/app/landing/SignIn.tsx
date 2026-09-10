@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import Link from 'next/link';
 
 import { Icon } from '../app/ui/Icons';
 import { LoginForm } from '../login/LoginForm';
@@ -63,12 +64,25 @@ export function SignInGate({
       {children}
 
       {!signedIn && (
-        <dialog ref={dialog} className="ui-modal" onClick={onBackdropClick}>
+        <dialog
+          ref={dialog}
+          className="ui-modal"
+          aria-labelledby="sign-in-title"
+          aria-describedby="sign-in-description"
+          onClick={onBackdropClick}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape') {
+              event.preventDefault();
+              event.currentTarget.close();
+            }
+          }}
+        >
           <div className="ui-modal-card">
             <div className="ui-modal-head">
               <div>
-                <h2>Sign in to continue</h2>
-                <p>Your work email is enough. The Cursor API key is optional.</p>
+                <span className="ui-section-label">Zero Manual Coding</span>
+                <h2 id="sign-in-title">Join the conversation.</h2>
+                <p id="sign-in-description">Use your work email to share an achievement or appreciate someone else’s work.</p>
               </div>
               <button
                 type="button"
@@ -110,9 +124,9 @@ export function AuthLink({
 
   if (signedIn) {
     return (
-      <a className={className} href={href} title={title}>
+      <Link className={className} href={href} title={title}>
         {children}
-      </a>
+      </Link>
     );
   }
 

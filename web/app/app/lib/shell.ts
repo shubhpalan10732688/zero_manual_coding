@@ -2,6 +2,8 @@ import { cache } from 'react';
 
 import { redirect } from 'next/navigation';
 
+import { EXTENDED_WORKSPACE_ENABLED } from '../../../features';
+
 import { workspaceNav, type NavItem } from '../ui/nav';
 import type { ShellConnection, ShellUser } from '../ui/Shell';
 
@@ -32,7 +34,10 @@ export interface ShellContext {
 
 export const shellContext = cache(async (): Promise<ShellContext> => {
   const user = await requireUser();
-  const connections = await connectionState(user.email);
+  // Do not even read credentials/telemetry for the board-only experience.
+  const connections: ConnectionState = EXTENDED_WORKSPACE_ENABLED
+    ? await connectionState(user.email)
+    : { cursor: undefined, github: undefined, jira: undefined, connectedCount: 0, hasError: false };
   const hasCursorKey = Boolean(connections.cursor);
   const actions = hasCursorKey ? await openActionCount(user.email) : 0;
 
@@ -42,6 +47,7 @@ export const shellContext = cache(async (): Promise<ShellContext> => {
       name: user.name,
       email: user.email,
       initials: user.initials,
+      isAdmin: user.isAdmin,
       role: user.jobTitle ?? user.teamName ?? user.email,
     },
     connections,
@@ -59,6 +65,7 @@ export const shellContext = cache(async (): Promise<ShellContext> => {
  * the sidebar, is where they turn the rest on.
  */
 export const cursorShellContext = cache(async (): Promise<ShellContext> => {
+  if (!EXTENDED_WORKSPACE_ENABLED) redirect('/app/board');
   const context = await shellContext();
   if (!context.hasCursorKey) redirect('/app/board');
   return context;

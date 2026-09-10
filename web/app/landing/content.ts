@@ -19,14 +19,14 @@ export interface Step {
 }
 
 export const HERO = {
-  eyebrow: 'An engineering practice, not a tool rollout',
-  title: 'Zero Manual Coding',
-  lede: 'What the people here have achieved by directing an AI agent instead of typing every line themselves — in their own words, with what it saved them, and with enough detail that you can do the same thing tomorrow.',
+  eyebrow: 'Better ways to work, shared openly',
+  title: 'Less manual work.\nMore meaningful progress.',
+  lede: 'Real achievements from people working with AI. Discover what they built, learn how they did it, and share a better way forward.',
 } as const;
 
 export const WALL = {
-  title: 'What people here have achieved',
-  lede: 'Every card was written by the person who did the work. Some are features, some are migrations nobody noticed, and some are an afternoon of tedium that turned into twenty minutes. All of them count.',
+  title: 'Good work deserves to be shared.',
+  lede: 'From a small fix to a new feature. Every story comes from the person who did the work, with an approach you can make your own.',
 } as const;
 
 export const WHAT_IT_IS = {
@@ -51,7 +51,7 @@ export const PRINCIPLES: Principle[] = [
   {
     icon: 'terminal',
     title: 'Turn a good prompt into a shared one',
-    body: 'A prompt that worked twice belongs in the shared commands and rules library, not in one person\u2019s history. That is the difference between an individual getting faster and a team getting faster.',
+    body: 'A prompt that worked twice is worth sharing in your achievement write-up, not leaving in one person\u2019s history. That is the difference between an individual getting faster and a team getting faster.',
   },
   {
     icon: 'award',
@@ -71,7 +71,7 @@ export const STEPS: Step[] = [
   },
   {
     title: 'Share it to the wall',
-    body: 'It appears here, it is searchable by tag and team, and it counts towards the totals above. Sign in with your work email; the Cursor API key is optional.',
+    body: 'It appears here, it is searchable by tag and team, and it counts towards the totals above. Sign in with your work email to take part.',
   },
 ];
 

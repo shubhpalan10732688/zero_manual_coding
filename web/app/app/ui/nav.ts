@@ -1,3 +1,5 @@
+import { EXTENDED_WORKSPACE_ENABLED } from '../../../features';
+
 import type { IconName } from './Icons';
 
 export interface NavItem {
@@ -26,6 +28,13 @@ export interface NavItem {
 export function workspaceNav(
   options: { actions?: number; hasCursorKey?: boolean } = {},
 ): NavItem[] {
+  // Extended navigation is temporarily disabled, not deleted.
+  if (!EXTENDED_WORKSPACE_ENABLED) {
+    return [
+      { href: '/app/board', label: 'Achievement board', icon: 'grid' },
+      { href: '/', label: 'Public landing page', icon: 'external' },
+    ];
+  }
   const measured: NavItem[] = options.hasCursorKey
     ? [
         { href: '/app', label: 'Dashboard', icon: 'grid', group: 'Your work' },

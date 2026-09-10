@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { query } from '@core/db/pool';
 import { loadIntegration } from '@core/integrations/store';
 
-import { requireUser } from '../lib/auth';
+import { requireExtendedWorkspaceUser as requireUser } from '../lib/auth';
 import { list, optionalText, text, url as parseUrl } from '../lib/forms';
 import { toRepoSlug, RESOURCE_KINDS, type ResourceKind } from '../lib/resourceKinds';
 

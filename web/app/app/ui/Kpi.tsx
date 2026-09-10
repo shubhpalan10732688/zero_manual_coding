@@ -93,7 +93,7 @@ export function StatTile({
       </div>
       <div className="ui-row" style={{ justifyContent: 'space-between', flexWrap: 'nowrap' }}>
         <div>
-          <div style={{ fontSize: 18, fontWeight: 650, letterSpacing: '-0.02em' }}>{value}</div>
+          <div className="ui-stat-value">{value}</div>
           {trend && (
             <div className="ui-kpi-foot" style={{ marginTop: 2 }}>
               <Delta trend={trend} showBasis={false} />
@@ -106,7 +106,7 @@ export function StatTile({
     </>
   );
 
-  const className = 'ui-kpi';
+  const className = 'ui-kpi ui-stat';
   return href ? (
     <a className={className} href={href} style={{ gap: 5 }}>
       {inner}

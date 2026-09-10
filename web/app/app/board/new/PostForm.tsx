@@ -37,7 +37,7 @@ export function PostForm() {
           label="What did you achieve?"
           htmlFor="title"
           wide
-          hint="One line a colleague scrolling the board would recognise. e.g. “Cut the nightly reconciliation job from 40 minutes to 4”."
+          hint="Be specific about the outcome. A clear title helps others find your story."
         >
           <TextInput
             id="title"
@@ -45,7 +45,7 @@ export function PostForm() {
             required
             maxLength={200}
             autoFocus
-            placeholder="The thing you got done"
+            placeholder="e.g. Cut the reconciliation job from 40 minutes to 4"
             aria-invalid={state.field === 'title'}
           />
         </Field>
@@ -54,7 +54,7 @@ export function PostForm() {
           label="How did you achieve it with AI?"
           htmlFor="delivered"
           wide
-          hint="What you set out to do, and what the agent did rather than you. This is the part colleagues read to decide whether it applies to their own work, so the approach matters more than the diff. Bullet points with - work, and `backticks` render as code."
+          hint="Describe the problem, how you directed AI, and what you learned. Use bullet points to keep it easy to follow."
         >
           <TextArea
             id="delivered"
@@ -67,10 +67,10 @@ export function PostForm() {
         </Field>
 
         <Field
-          label="Effort saved"
+          label="Effort saved (%)"
           htmlFor="effortSavedPct"
           optional
-          hint="A percentage of the work you would have done by hand. Be honest: modest numbers people believe are worth more than impressive ones they do not."
+          hint="Your estimate compared with doing the same work by hand."
         >
           <TextInput
             id="effortSavedPct"

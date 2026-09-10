@@ -1,4 +1,7 @@
+import Link from 'next/link';
+
 import { Icon } from '../ui/Icons';
+import { SubmitButton } from '../ui/SubmitButton';
 import { Tag } from '../ui/Tag';
 import { days, initials, plural, when } from '../ui/format';
 import type { BoardPost } from '../lib/board';
@@ -23,8 +26,9 @@ export function LikeButton({ post, size }: { post: BoardPost; size?: 'lg' }) {
   return (
     <form action={likeAction} className="ui-like-form">
       <input type="hidden" name="id" value={post.id} />
-      <button
+      <SubmitButton
         type="submit"
+        pendingLabel="Saving…"
         className={size === 'lg' ? 'ui-like ui-like-lg' : 'ui-like'}
         data-liked={post.liked ? 'true' : 'false'}
         aria-pressed={post.liked}
@@ -37,7 +41,7 @@ export function LikeButton({ post, size }: { post: BoardPost; size?: 'lg' }) {
         <Icon name="heart" size={size === 'lg' ? 16 : 14} filled={post.liked} />
         <span>{label}</span>
         {post.likes > 0 && <span className="ui-like-count">{post.likes}</span>}
-      </button>
+      </SubmitButton>
       {size === 'lg' && (
         <span className="ui-faint">
           {post.likes > 0
@@ -66,10 +70,7 @@ export function SavingsStrip({ post }: { post: BoardPost }) {
           <span>time saved</span>
         </span>
       )}
-      <span className="ui-metric">
-        <b>Self-reported</b>
-        <span>written by the author</span>
-      </span>
+      <span className="ui-savings-note"><Icon name="info" size={12} /> Self-reported by the author</span>
     </div>
   );
 }
@@ -98,19 +99,19 @@ export function PostCard({ post }: { post: BoardPost }) {
       </div>
 
       <h3 className="ui-post-title">
-        <a href={`/app/board/${post.id}`}>
-          {post.ticketKeys.length > 0 && `${post.ticketKeys.join(', ')}: `}
+        <Link href={`/app/board/${post.id}`}>
           {post.title}
-        </a>
+        </Link>
       </h3>
 
-      {summary && <p className="ui-muted">{summary.slice(0, 260)}{summary.length > 260 ? '…' : ''}</p>}
+      {summary && <p className="ui-post-summary">{summary.slice(0, 260)}{summary.length > 260 ? '…' : ''}</p>}
 
       <SavingsStrip post={post} />
 
       <div className="ui-post-foot">
         <LikeButton post={post} />
         <span className="ui-row ui-row-tight">
+          {post.ticketKeys.slice(0, 1).map((key) => <Tag key={key}>{key}</Tag>)}
           {post.collaboratorNames.length > 0 && (
             <span className="ui-faint">
               with {post.collaboratorNames.slice(0, 3).join(', ')}
@@ -122,9 +123,9 @@ export function PostCard({ post }: { post: BoardPost }) {
               {tag}
             </Tag>
           ))}
-          <a className="ui-card-action" href={`/app/board/${post.id}`}>
-            Read the write-up
-          </a>
+          <Link className="ui-card-action" href={`/app/board/${post.id}`}>
+            Read story <Icon name="arrowRight" size={14} />
+          </Link>
         </span>
       </div>
     </article>

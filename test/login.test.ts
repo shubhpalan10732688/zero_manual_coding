@@ -157,6 +157,18 @@ describe('authenticate', () => {
     expect(storeVerifiedKey).not.toHaveBeenCalled();
   });
 
+  it.each(['person@ltm.com', 'person@ltimindtree.com', 'person@example.com'])(
+    'accepts non-demo email %s when the domain setting is blank',
+    async (email) => {
+      process.env.ALLOWED_EMAIL_DOMAINS = '';
+      const client = jest.fn(clientReturning(email));
+      expect(await authenticate(email, '', client)).toMatchObject({ email, hasKey: false });
+      expect(ensureAppUser).toHaveBeenCalledWith(email);
+      expect(client).not.toHaveBeenCalled();
+      expect(storeVerifiedKey).not.toHaveBeenCalled();
+    },
+  );
+
   it('treats whitespace and a missing key as the same thing', async () => {
     expect((await authenticate('ada@corp.test', '   ', clientReturning('x@y.test'))).hasKey).toBe(
       false,

@@ -104,16 +104,17 @@ export default async function LandingPage() {
   return (
     <div className="ui-root ui-lp">
       <SignInGate signedIn={signedIn}>
+        <a className="ui-skip-link" href="#main-content">Skip to content</a>
         <header className="ui-lp-nav">
           <a className="ui-lp-brand" href="/">
             <span className="ui-brand-mark">
               <BrandMark />
             </span>
-            <span className="ui-brand-name">Zero Manual Coding</span>
+            <span className="ui-brand-wordmark">Zero Manual<span>Coding</span></span>
           </a>
 
           <nav className="ui-lp-links">
-            <a href="#wall">The wall</a>
+            <a href="#wall">Achievements</a>
             <a href="#contributors">Contributors</a>
             <a href="#practice">The practice</a>
             <a href="#take-part">Take part</a>
@@ -121,35 +122,68 @@ export default async function LandingPage() {
 
           <div className="ui-row ui-row-tight">
             <AuthLink className="ui-btn ui-btn-ghost ui-btn-sm" href="/app/board">
-              {signedIn ? 'Open the workspace' : 'Sign in'}
+              {signedIn ? 'Open the dashboard' : 'Sign in'}
             </AuthLink>
-            <AuthLink className="ui-btn ui-btn-primary ui-btn-sm" href="/app/board/new">
+            <AuthLink className="ui-btn ui-btn-primary ui-btn-sm ui-lp-nav-cta" href="/app/board/new">
               <Icon name="plus" size={13} />
               Add achievement
             </AuthLink>
           </div>
         </header>
 
-        <main className="ui-lp-main">
+        <main className="ui-lp-main" id="main-content" tabIndex={-1}>
           <section className="ui-lp-hero">
+            <div className="ui-lp-hero-copy">
             <span className="ui-lp-eyebrow">{HERO.eyebrow}</span>
             <h1>{HERO.title}</h1>
             <p className="ui-lp-lede">{HERO.lede}</p>
 
             <div className="ui-lp-cta">
-              <AuthLink className="ui-btn ui-btn-primary" href="/app/board/new">
-                <Icon name="award" size={14} />
-                Share what you achieved
-              </AuthLink>
+              <a className="ui-btn ui-btn-primary" href="#wall">
+                Explore the achievements
+                <Icon name="arrowRight" size={16} />
+              </a>
               <a className="ui-btn ui-btn-ghost" href="#practice">
-                What is Zero Manual Coding?
+                About the practice
               </a>
             </div>
 
             <p className="ui-lp-note">
-              <Icon name="info" size={12} /> Your work email is enough to read and post. A Cursor
-              API key is optional, and only adds your own agent cost and delivery metrics.
+              <Icon name="check" size={14} /> Written by people. Savings reported by their authors.
             </p>
+            </div>
+
+            <aside className="ui-spotlight" aria-label="Community spotlight">
+              <div className="ui-spotlight-label">
+                <span className="ui-section-label">From the community</span>
+                <Icon name="award" size={22} />
+              </div>
+              {featured ? (
+                <>
+                  <span className="ui-spotlight-kicker">An achievement worth a closer look</span>
+                  <h2>{featured.title}</h2>
+                  <div className="ui-spotlight-author">
+                    <span className="ui-avatar-sm">{initials(featured.authorName, '?')}</span>
+                    <span><strong>{featured.authorName}</strong><small>{featured.teamName ?? 'Community contributor'}</small></span>
+                  </div>
+                  <div className="ui-spotlight-bottom">
+                    {featured.timeSavedDays !== null ? (
+                      <div><b>~{formatDays(featured.timeSavedDays)}<span> days</span></b><small>saved · self-reported</small></div>
+                    ) : <p>A practical approach, shared first-hand.</p>}
+                    <AuthLink className="ui-spotlight-link" href={`/app/board/${featured.id}`}>
+                      Read the story <Icon name="arrowRight" size={16} />
+                    </AuthLink>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span className="ui-spotlight-kicker">A small improvement can go a long way</span>
+                  <h2>Your next achievement could inspire someone else.</h2>
+                  <p>Share the problem, the approach, and what you learned along the way.</p>
+                  <AuthLink className="ui-spotlight-link" href="/app/board/new">Share your story <Icon name="arrowRight" size={16} /></AuthLink>
+                </>
+              )}
+            </aside>
           </section>
 
           {!board.unavailable && board.totals.posts > 0 && (
@@ -191,7 +225,7 @@ export default async function LandingPage() {
 
           <section className="ui-lp-section" id="wall">
             <div className="ui-lp-section-head">
-              <span className="ui-section-label">The wall</span>
+              <span className="ui-section-label">01 / The achievement wall</span>
               <h2>{WALL.title}</h2>
               <p className="ui-lp-section-lede">{WALL.lede}</p>
             </div>
@@ -260,8 +294,8 @@ export default async function LandingPage() {
           {board.leaders.length > 0 && (
             <section className="ui-lp-section" id="contributors">
               <div className="ui-lp-section-head">
-                <span className="ui-section-label">Contributors</span>
-                <h2>Who has been writing it down</h2>
+                <span className="ui-section-label">02 / The people behind the progress</span>
+                <h2>Better together.</h2>
                 <p className="ui-lp-section-lede">
                   Ranked by self-reported days saved, which measures what people shared as much
                   as what they achieved. It is a thank-you list, not a performance rating.
@@ -298,7 +332,7 @@ export default async function LandingPage() {
 
           <section className="ui-lp-section" id="practice">
             <div className="ui-lp-section-head">
-              <span className="ui-section-label">The practice</span>
+              <span className="ui-section-label">03 / The practice</span>
               <h2>{WHAT_IT_IS.title}</h2>
             </div>
 
@@ -323,14 +357,14 @@ export default async function LandingPage() {
 
           <section className="ui-lp-section" id="take-part">
             <div className="ui-lp-section-head">
-              <span className="ui-section-label">Take part</span>
-              <h2>Three steps, about five minutes</h2>
+              <span className="ui-section-label">04 / Your contribution</span>
+              <h2>A few minutes. A useful story.</h2>
             </div>
 
             <ol className="ui-lp-steps">
               {STEPS.map((step, index) => (
                 <li className="ui-lp-step" key={step.title}>
-                  <span className="ui-lp-step-n">{index + 1}</span>
+                  <span className="ui-lp-step-n">0{index + 1}</span>
                   <h3>{step.title}</h3>
                   <p>{step.body}</p>
                 </li>
@@ -339,11 +373,11 @@ export default async function LandingPage() {
 
             <div className="ui-lp-final">
               <div>
-                <h3>What did you get done this week?</h3>
+                <span className="ui-section-label">Make your experience someone else’s starting point</span>
+                <h3>What did you do differently?</h3>
                 <p>
-                  Sign in with your work email. The wall, the shared commands and rules, the
-                  resources and the AI news are all open to you from the first click; add a
-                  Cursor API key whenever you want your own agent metrics alongside them.
+                  Sign in with your work email to share an achievement, explain how you did
+                  it, and add your own estimate of the effort and time saved.
                 </p>
               </div>
               <AuthLink className="ui-btn ui-btn-primary" href="/app/board/new">
@@ -355,7 +389,7 @@ export default async function LandingPage() {
         </main>
 
         <footer className="ui-lp-foot">
-          <span>Zero Manual Coding · an internal engineering practice</span>
+          <span><strong>Zero Manual Coding</strong> · An internal engineering practice</span>
           <span className="ui-row ui-row-tight">
             <a href="/login">Sign in</a>
           </span>

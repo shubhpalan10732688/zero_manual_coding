@@ -1,10 +1,12 @@
+import Link from 'next/link';
+
 import { Card, Empty, Note } from '../ui/Card';
-import { FilterChips, SearchBox } from '../ui/Filters';
+import { SearchBox } from '../ui/Filters';
 import { Icon } from '../ui/Icons';
 import { StatTile } from '../ui/Kpi';
 import { Shell } from '../ui/Shell';
 import { count, days as formatDays, initials, percent, plural, when } from '../ui/format';
-import { boardFacets, boardFeed, boardLeaderboard, boardTotals } from '../lib/board';
+import { boardFeed, boardLeaderboard, boardTotals } from '../lib/board';
 import { one, shellContext, type SearchParams } from '../lib/shell';
 
 import { PostCard } from './PostCard';
@@ -23,19 +25,13 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
   const params = await searchParams;
   const { shellUser, nav, connection, user } = await shellContext();
 
-  const team = one(params.team);
-  const tag = one(params.tag);
   const search = one(params.q);
-  const author = one(params.author);
-  const mine = one(params.mine) === '1';
   const page = Math.max(Number(one(params.page) ?? '1') || 1, 1);
 
-  const filters = { team, tag, search, author, mine };
-  const [posts, totals, leaders, facets] = await Promise.all([
-    boardFeed(user.email, filters, PAGE_SIZE + 1, (page - 1) * PAGE_SIZE),
+  const [posts, totals, leaders] = await Promise.all([
+    boardFeed(user.email, { search }, PAGE_SIZE + 1, (page - 1) * PAGE_SIZE),
     boardTotals(),
     boardLeaderboard(6),
-    boardFacets(),
   ]);
 
   const hasMore = posts.length > PAGE_SIZE;
@@ -43,7 +39,7 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
 
   const queryString = (overrides: Record<string, string | undefined>) => {
     const next = new URLSearchParams();
-    const merged = { team, tag, q: search, author, mine: mine ? '1' : undefined, ...overrides };
+    const merged = { q: search, ...overrides };
     for (const [key, value] of Object.entries(merged)) {
       if (value) next.set(key, value);
     }
@@ -56,18 +52,27 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
       user={shellUser}
       nav={nav}
       connection={connection}
-      title="Zero Manual Coding"
-      subtitle="What people here achieved with AI, in their own words"
+      title="Achievement board"
+      subtitle="The work, the people, and the progress behind it."
       headerExtra={
-        <a className="ui-btn ui-btn-primary" href="/app/board/new">
+        <Link className="ui-btn ui-btn-primary" href="/app/board/new">
           <Icon name="plus" size={14} />
           Add an achievement
-        </a>
+        </Link>
       }
     >
-      <div className="ui-col">
+      <div className="ui-col ui-board">
+        <section className="ui-board-intro">
+          <div>
+            <span className="ui-section-label">Zero Manual Coding</span>
+            <h2>A shared record of progress.</h2>
+            <p>Discover a useful approach. Recognise a colleague. Share what worked for you.</p>
+          </div>
+          <span className="ui-board-trust"><Icon name="info" size={15} /> Real stories. Self-reported impact.</span>
+        </section>
+        <div className="ui-board-overview">
         <Card
-          title="The wall so far"
+          title="Community at a glance"
           info="Counts are of achievements. Effort and time saved are self-reported by the people who wrote them, so each total says how many carried a figure."
         >
           <div className="ui-grid ui-grid-5">
@@ -90,60 +95,27 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
             <StatTile
               label="Tickets referenced"
               value={count(totals.ticketsReferenced)}
-              hint="distinct keys mentioned"
+              hint="mentions across achievements"
             />
           </div>
         </Card>
+        </div>
 
         <div className="ui-with-rail">
           <div className="ui-col">
+            <div className="ui-feed-heading">
+              <h2>Explore the achievements</h2>
+              <span>{shown.length} {plural(shown.length, 'story', 'stories')} on this page</span>
+            </div>
+            <div className="ui-board-filters">
             <Card>
-              <div className="ui-col" style={{ gap: 10 }}>
-                <SearchBox
-                  action="/app/board"
-                  placeholder="Search achievements, write-ups and ticket keys"
-                  value={search}
-                  keep={{ team, tag, author, mine: mine ? '1' : undefined }}
-                />
-
-                <FilterChips
-                  options={facets.teams.map((entry) => ({ id: entry, label: entry }))}
-                  active={team}
-                  allLabel="Every team"
-                  allHref={queryString({ team: undefined, page: undefined })}
-                  hrefFor={(id) => queryString({ team: id, page: undefined })}
-                />
-
-                {facets.tags.length > 0 && (
-                  <FilterChips
-                    options={facets.tags.map((entry) => ({ id: entry, label: entry }))}
-                    active={tag}
-                    allLabel="Any tag"
-                    allHref={queryString({ tag: undefined, page: undefined })}
-                    hrefFor={(id) => queryString({ tag: id, page: undefined })}
-                  />
-                )}
-
-                <div className="ui-filters">
-                  <a
-                    className="ui-chip"
-                    href={queryString({ mine: mine ? undefined : '1', page: undefined })}
-                    aria-current={mine ? 'true' : undefined}
-                  >
-                    Only mine
-                  </a>
-                  {author && (
-                    <a
-                      className="ui-chip"
-                      href={queryString({ author: undefined, page: undefined })}
-                      aria-current="true"
-                    >
-                      {author} — clear
-                    </a>
-                  )}
-                </div>
-              </div>
+              <SearchBox
+                action="/app/board"
+                placeholder="Search by achievement, keyword or ticket…"
+                value={search}
+              />
             </Card>
+            </div>
 
             {shown.length > 0 ? (
               <div className="ui-feed">
@@ -154,8 +126,8 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
             ) : (
               <Card>
                 <Note>
-                  {search || team || tag || author || mine
-                    ? 'Nothing matches those filters. Clear them and the whole wall comes back.'
+                  {search
+                    ? 'No achievements match your search. Try another keyword, or empty the search box and search again to see all achievements.'
                     : 'The wall is empty. The first achievement is the hardest one — write up the last thing an agent helped you get done, however small, and the rest of the team will have a shape to copy.'}
                 </Note>
                 <div className="ui-row" style={{ marginTop: 12 }}>
@@ -190,10 +162,10 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
             )}
           </div>
 
-          <aside className="ui-rail">
+          <aside className="ui-rail ui-board-rail">
             <div className="ui-rail-head">
               <span className="ui-rail-title">
-                <Icon name="award" size={14} /> Most shared
+                <Icon name="award" size={16} /> Community contributors
               </span>
               <span className="ui-rail-sub">By self-reported days saved</span>
             </div>
@@ -201,9 +173,8 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
             {leaders.length > 0 ? (
               <div className="ui-rows">
                 {leaders.map((leader) => (
-                  <a
+                  <div
                     className="ui-row-card"
-                    href={`/app/board?author=${encodeURIComponent(leader.email)}`}
                     key={leader.email}
                   >
                     <span className="ui-row ui-row-tight">
@@ -221,14 +192,14 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
                         {leader.posts} {plural(leader.posts, 'post')}
                       </span>
                     </span>
-                  </a>
+                  </div>
                 ))}
               </div>
             ) : (
               <Empty>Nobody has posted yet.</Empty>
             )}
 
-            <Card title="What makes a good achievement">
+            <Card title="A useful story starts here">
               <ul className="ui-list">
                 <li>Say what you achieved before saying how the agent helped.</li>
                 <li>
@@ -242,6 +213,12 @@ export default async function BoardPage({ searchParams }: { searchParams: Search
                 </li>
               </ul>
             </Card>
+            {user.isAdmin && (
+              <div className="ui-moderation-note">
+                <Icon name="shield" size={18} />
+                <div><strong>Administrator access</strong><p>Open any achievement to review its details and manage its visibility.</p></div>
+              </div>
+            )}
           </aside>
         </div>
       </div>

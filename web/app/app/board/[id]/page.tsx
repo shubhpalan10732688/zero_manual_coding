@@ -4,6 +4,7 @@ import { Card, KeyValues, Note } from '../../ui/Card';
 import { Icon } from '../../ui/Icons';
 import { RichText, Section } from '../../ui/RichText';
 import { Shell } from '../../ui/Shell';
+import { SubmitButton } from '../../ui/SubmitButton';
 import { ConfidenceNote, Tag } from '../../ui/Tag';
 import { days as formatDays, formatDay, initials, plural, shortRepo } from '../../ui/format';
 import { boardPost } from '../../lib/board';
@@ -47,7 +48,7 @@ export default async function PostPage({
       title={post.title}
       subtitle={`${post.authorName} · ${formatDay(post.happenedOn)}`}
     >
-      <div className="ui-col">
+      <div className="ui-col ui-story-detail">
         <div className="ui-breadcrumb">
           <a href="/app/board">Zero Manual Coding</a>
           <span className="ui-breadcrumb-sep">/</span>
@@ -66,7 +67,7 @@ export default async function PostPage({
         {post.hidden && (
           <Card>
             <Note>
-              This post is hidden, so only you can see it. Publish it again below when you want
+              This post is hidden from the public wall. Its author and administrators can still review it. Publish it again below when you want
               it back on the board.
             </Note>
           </Card>
@@ -97,7 +98,7 @@ export default async function PostPage({
 
                 {(post.helpPlanning || post.helpImplementation) && (
                   <div>
-                    <div className="ui-section-label">How Cursor helped</div>
+                    <div className="ui-section-label">How AI helped</div>
                     {post.helpPlanning && (
                       <>
                         <p className="ui-strong">Problem diagnosis and planning</p>
@@ -119,7 +120,7 @@ export default async function PostPage({
 
             <Card
               title="Benefits"
-              info="Written by the person who did the work. Nothing here is read from an API, and it is never added to the measured cost figures on the Impact page."
+              info="Estimated by the person who did the work. These savings are self-reported, not independently verified."
             >
               {post.effortSavedPct !== null || post.timeSavedDays !== null ? (
                 <>
@@ -189,7 +190,7 @@ export default async function PostPage({
             </Card>
 
             {(isAuthor || user.isAdmin) && (
-              <Card title="Manage">
+              <Card title="Publication settings">
                 <form action={hidePostAction} className="ui-col" style={{ gap: 10 }}>
                   <input type="hidden" name="id" value={post.id} />
                   {!post.hidden && <input type="hidden" name="hide" value="on" />}
@@ -198,10 +199,10 @@ export default async function PostPage({
                       ? 'Put this back on the wall where everyone can read it.'
                       : 'Hiding removes it from the wall and from every total, but keeps the write-up and its likes.'}
                   </p>
-                  <button type="submit" className="ui-btn ui-btn-ghost ui-btn-sm">
+                  <SubmitButton className="ui-btn ui-btn-ghost ui-btn-sm" pendingLabel="Updating visibility…">
                     <Icon name={post.hidden ? 'eye' : 'lock'} size={13} />
                     {post.hidden ? 'Publish again' : 'Hide from the board'}
-                  </button>
+                  </SubmitButton>
                 </form>
               </Card>
             )}

@@ -21,21 +21,18 @@ export default async function NewPostPage() {
       title="Add an achievement"
       subtitle="One thing you got done, written up once, findable afterwards"
     >
-      <div className="ui-col">
+      <div className="ui-col ui-compose">
         <div className="ui-breadcrumb">
           <a href="/app/board">Zero Manual Coding</a>
           <span className="ui-breadcrumb-sep">/</span>
           <span>New achievement</span>
         </div>
 
-        <Card>
-          <Note>
-            <Icon name="info" size={12} /> It does not have to be a feature. A migration nobody
-            noticed, a flaky test finally fixed, an afternoon of tedium compressed into twenty
-            minutes — those are the achievements this wall is least likely to get and most needs,
-            because they are the ones colleagues can copy on Monday.
-          </Note>
-        </Card>
+        <div className="ui-compose-intro">
+          <span className="ui-section-label">Contribute to the community</span>
+          <h2>Every useful improvement has a story.</h2>
+          <Note><Icon name="info" size={14} /> A small fix, a faster workflow, a new feature. Share what changed and how you got there.</Note>
+        </div>
 
         <Card title="Your achievement">
           <PostForm />

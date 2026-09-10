@@ -1,3 +1,5 @@
+import { workspacePathEnabled } from '../../features';
+
 /**
  * Where to land after signing in.
  *
@@ -11,6 +13,9 @@
  */
 export function safeDestination(value: string | undefined, fallback: string): string {
   if (!value) return fallback;
-  if (!value.startsWith('/app') || value.startsWith('//')) return fallback;
+  if (!/^\/app(?:[/?#]|$)/.test(value) || /[\\\s]/.test(value)) return fallback;
+  // Normalize traversal before applying the same route policy as middleware.
+  const destination = new URL(value, 'https://workspace.invalid');
+  if (!workspacePathEnabled(destination.pathname)) return fallback;
   return value;
 }

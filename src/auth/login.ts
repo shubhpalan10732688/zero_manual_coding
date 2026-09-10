@@ -90,7 +90,7 @@ export async function authenticate(
   const apiKey = (apiKeyInput ?? '').trim();
 
   if (!looksLikeEmail(email)) {
-    throw new LoginError('email-missing', 'Enter the work email address on your Cursor account.');
+    throw new LoginError('email-missing', 'Enter a valid email address.');
   }
 
   if (!isAllowedDomain(email)) {

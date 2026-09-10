@@ -3,6 +3,28 @@
 A public wall of what people achieved by directing an AI agent instead of typing every line
 themselves, and the workspace behind it.
 
+## Current release: landing page and achievement dashboard only
+
+The public landing page and Zero Manual Coding board (including posting, likes and
+moderation) are the only enabled product surfaces. Sign-in uses work email only.
+There is no demo-domain restriction: leave `ALLOWED_EMAIL_DOMAINS` blank to accept
+any valid email address. A non-empty value is an optional deployment-specific allowlist.
+Cursor key entry, analytics, connections, commands, rules, resources and news are
+temporarily disabled, with their code and stored data retained.
+
+`web/features.ts` controls this temporary mode through `EXTENDED_WORKSPACE_ENABLED`.
+Disabled workspace URLs redirect to the board, disabled server actions are guarded,
+and sign-in ignores submitted API keys rather than checking them or refreshing history.
+Re-enable the switch to restore the retained workspace features; some landing-page copy
+has been simplified for the board-only release.
+
+This change does not revoke existing provider credentials or alter external cron/Lambda
+schedules. Pause those separately if background collection must also stop. Email-only
+sign-in still does not prove identity; keep the deployment behind an appropriate access
+boundary (see the deployment security notes).
+
+## Retained extended workspace
+
 Two halves, deliberately unequal:
 
 - **The shared half** — the achievement wall, the commands and rules catalogue, the resource

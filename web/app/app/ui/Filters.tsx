@@ -67,7 +67,7 @@ export function SearchBox({
   return (
     <form className="ui-search" action={action} method="get">
       <Icon name="search" size={14} />
-      <input type="search" name="q" defaultValue={value ?? ''} placeholder={placeholder} />
+      <input type="search" name="q" aria-label="Search" defaultValue={value ?? ''} placeholder={placeholder} />
       {Object.entries(keep)
         .filter(([, entry]) => entry)
         .map(([name, entry]) => (

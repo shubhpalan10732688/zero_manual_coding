@@ -11,6 +11,8 @@ import { ingestCloudAgents } from '@core/ingest/cloudAgents';
 import { logger } from '@core/logger';
 import { clientFor } from '@core/users/keyStore';
 
+import { EXTENDED_WORKSPACE_ENABLED } from '../../features';
+
 import { safeDestination } from './destination';
 
 export interface LoginState {
@@ -31,7 +33,8 @@ export interface LoginState {
  */
 export async function loginAction(_previous: LoginState, formData: FormData): Promise<LoginState> {
   const email = String(formData.get('email') ?? '');
-  const apiKey = String(formData.get('apiKey') ?? '');
+  // Ignore keys from stale forms or handcrafted requests while integrations are retired.
+  const apiKey = EXTENDED_WORKSPACE_ENABLED ? String(formData.get('apiKey') ?? '') : '';
   const next = String(formData.get('next') ?? '') || undefined;
 
   if (!email.trim()) {
@@ -74,7 +77,7 @@ export async function loginAction(_previous: LoginState, formData: FormData): Pr
     maxAge: session.maxAgeSeconds,
   });
 
-  if (hasKey) {
+  if (EXTENDED_WORKSPACE_ENABLED && hasKey) {
     await pullHistory(signedInAs);
     redirect(safeDestination(next, '/app'));
   }

@@ -6,6 +6,8 @@ import { redirect } from 'next/navigation';
 import { SESSION_COOKIE, resolveSession } from '@core/auth/sessions';
 import { query } from '@core/db/pool';
 
+import { EXTENDED_WORKSPACE_ENABLED } from '../../../features';
+
 /**
  * Who is signed in, for every page under /app.
  *
@@ -95,6 +97,12 @@ export async function requireUser(): Promise<AppUser> {
   const user = await currentUser();
   if (!user) redirect('/login');
   return user;
+}
+
+/** Guard actions as well as routes: old tabs must not activate retired features. */
+export async function requireExtendedWorkspaceUser(): Promise<AppUser> {
+  if (!EXTENDED_WORKSPACE_ENABLED) redirect('/app/board');
+  return requireUser();
 }
 
 export async function currentUserAgent(): Promise<string | undefined> {

@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 
 import { query } from '@core/db/pool';
 
-import { requireUser } from '../lib/auth';
+import { requireExtendedWorkspaceUser as requireUser } from '../lib/auth';
 import { checkbox, list, optionalText, text } from '../lib/forms';
 import { categoriesFor, toSlug, type AssetKind } from '../lib/library';
 

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Icon } from './Icons';
@@ -22,7 +23,7 @@ export function SidebarNav({ items, root }: { items: NavItem[]; root: string }) 
       {items.map((item) => (
         <div key={item.href} style={{ display: 'contents' }}>
           {item.group && <div className="ui-nav-group">{item.group}</div>}
-          <a
+          <Link
             href={item.href}
             className="ui-navlink"
             aria-current={isActive(item.href) ? 'page' : undefined}
@@ -30,7 +31,7 @@ export function SidebarNav({ items, root }: { items: NavItem[]; root: string }) 
             <Icon name={item.icon} size={16} />
             {item.label}
             {item.count ? <span className="ui-navlink-count">{item.count}</span> : null}
-          </a>
+          </Link>
         </div>
       ))}
     </nav>

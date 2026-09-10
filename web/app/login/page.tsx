@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 
 import { allowedDomains } from '@core/auth/login';
 
+import { EXTENDED_WORKSPACE_ENABLED } from '../../features';
+
 import { currentUser } from '../app/lib/auth';
 import { BrandMark, Icon } from '../app/ui/Icons';
 
@@ -14,7 +16,7 @@ export const metadata = { title: 'Sign in · Zero Manual Coding' };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
-const POINTS: { icon: string; title: string; body: string }[] = [
+const POINTS: { icon: string; title: string; body: string }[] = EXTENDED_WORKSPACE_ENABLED ? [
   {
     icon: 'award',
     title: 'The Zero Manual Coding board',
@@ -30,6 +32,10 @@ const POINTS: { icon: string; title: string; body: string }[] = [
     title: 'What your agents actually cost',
     body: 'Every Cloud Agent you have run, what it spent, how much of it was cache, and whether anything shipped. This is the part that needs your key.',
   },
+] : [
+  { icon: 'award', title: 'Share what you achieved', body: 'Write up a delivery and explain how AI helped you get it done.' },
+  { icon: 'target', title: 'Make the savings clear', body: 'Add your own estimate of the effort and time saved.' },
+  { icon: 'book', title: 'Learn from your colleagues', body: 'Browse achievements and find approaches you can use in your own work.' },
 ];
 
 export default async function LoginPage({ searchParams }: { searchParams: SearchParams }) {
@@ -37,7 +43,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
   const requested = Array.isArray(params.next) ? params.next[0] : params.next;
   const next = safeDestination(requested, '');
 
-  if (await currentUser()) redirect(next || '/app');
+  if (await currentUser()) redirect(next || '/app/board');
 
   const domains = allowedDomains();
 
@@ -49,15 +55,17 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
             <span className="ui-brand-mark">
               <BrandMark />
             </span>
-            <span className="ui-brand-name">Zero Manual Coding</span>
+            <span className="ui-brand-wordmark">Zero Manual<span>Coding</span></span>
           </a>
 
           <h1>Your work email is enough.</h1>
           <p className="ui-auth-lede">
-            There is no separate password here. The board, the shared commands and rules and
+            {EXTENDED_WORKSPACE_ENABLED ? <>There is no separate password here. The board, the shared commands and rules and
             the resources open on your email alone. Add a Cursor API key and the measured half
             unlocks too — Cursor is asked whose key it is, so the account you see is the
-            account it belongs to.
+            account it belongs to.</> : <>Sign in to the Zero Manual Coding dashboard to share
+            achievements, celebrate your colleagues’ work, and learn how they used AI.
+            There is no separate password.</>}
           </p>
 
           <div className="ui-auth-points">
@@ -81,8 +89,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
             <h2 style={{ fontSize: 18, fontWeight: 660, letterSpacing: '-0.02em' }}>Sign in</h2>
             <p className="ui-hint" style={{ marginTop: 4 }}>
               {domains.length > 0
-                ? `Open to ${domains.map((domain) => `@${domain}`).join(', ')} accounts. The API key is optional.`
-                : 'Any work email. The API key is optional.'}
+                ? `Open to ${domains.map((domain) => `@${domain}`).join(', ')} accounts.`
+                : 'Sign in with your work email.'}
             </p>
           </div>
 

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { requireUser } from '../lib/auth';
+import { requireExtendedWorkspaceUser as requireUser } from '../lib/auth';
 import { setActionStatus, type ActionStatus } from '../lib/recommendations';
 
 const ALLOWED: ActionStatus[] = ['open', 'doing', 'done', 'dismissed'];
